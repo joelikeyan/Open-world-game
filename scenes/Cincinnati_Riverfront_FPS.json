@@ -1,0 +1,56 @@
+{
+  "name": "Cincinnati_Riverfront_FPS",
+  "environment": {
+    "location": "Cincinnati, Ohio, USA",
+    "time_of_day": "DynamicCycle",
+    "weather": ["Rain", "Fog", "ClearSky"],
+    "lighting": "LumenQuality_GlobalIllumination",
+    "fidelity": "HaloInfinite_UltraHD",
+    "reflections": "RayTraced",
+    "geometry": "Photogrammetry_RealWorldScale",
+    "ambient_sound": ["CityEcho", "BridgeTraffic", "RiverFlow", "CrowdChatter"]
+  },
+  "geography": {
+    "river": "Ohio River",
+    "landmarks": [
+      "Smale Riverfront Park",
+      "Great American Ball Park",
+      "Paycor Stadium",
+      "John A. Roebling Suspension Bridge"
+    ],
+    "district": "The Banks"
+  },
+  "player": {
+    "start_position": { "x": 45, "y": 12, "z": 2 },
+    "perspective": "FirstPerson",
+    "equipment": {
+      "weapon": "PlasmaRifle_BlueWhite_Energy",
+      "effects": ["DynamicLighting", "ParticleGlow"]
+    },
+    "movement": ["Walk", "Run", "Jump", "Aim", "Shoot"]
+  },
+  "npcs": {
+    "civilians": { "behavior": "Wander_AvoidCombat", "density": "Medium" },
+    "enemies": {
+      "factions": ["RogueUnits", "DronePatrols"],
+      "ai_level": "AdaptiveCombatAI"
+    }
+  },
+  "interactions": {
+    "interiors": ["Cafes", "MetroStations", "OfficeTowers"],
+    "vehicles": ["Cars", "Trucks", "PatrolDrones"],
+    "physics": "DestructibleProps_Enabled"
+  },
+  "rendering": {
+    "texture_resolution": "8K",
+    "frame_rate": "60+",
+    "global_illumination": true,
+    "volumetric_fog": true,
+    "reflections": "Realtime_RTX",
+    "shadows": "Soft_Dynamic"
+  },
+  "objectives": {
+    "mode": ["FreeRoam", "Combat_Mission"],
+    "goal_description": "Explore and engage across Cincinnati’s riverfront in a living, open-world FPS."
+  }
+}
