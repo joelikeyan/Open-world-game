@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: open_world_game
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: backend/services/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend/services
+        run: npm ci
+
+      - name: Run migrations
+        working-directory: backend/services
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/open_world_game
+        run: npm run migrate
+
+      - name: Package world assets
+        working-directory: backend/services
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/open_world_game
+        run: npm run build
+
+      - name: Upload world artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: world-build
+          path: backend/services/dist/world

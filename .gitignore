@@ -1,0 +1,5 @@
+node_modules/
+backups/
+backend/services/backups/
+backend/services/dist/
+backend/services/node_modules/
