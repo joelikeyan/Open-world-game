@@ -1,0 +1,15 @@
+{
+  "name": "Genesis Plains",
+  "spawn": {
+    "x": 0,
+    "y": 5,
+    "z": 0
+  },
+  "npcs": [
+    {
+      "id": "npc-scout",
+      "position": { "x": 15, "y": 5, "z": -3 },
+      "dialogue": "Keep your eyes open for rogue automatons!"
+    }
+  ]
+}
