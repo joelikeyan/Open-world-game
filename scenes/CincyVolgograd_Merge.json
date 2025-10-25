@@ -1,0 +1,172 @@
+{
+  "scene": {
+    "id": "CincyVolgograd_Merge",
+    "description": "Merged Ohio River and Volga River waterfronts with transitional infrastructure for seamless traversal.",
+    "version": "1.0.0"
+  },
+  "geography": {
+    "cities": [
+      {
+        "name": "Cincinnati",
+        "bounds": {
+          "min": [-4200.0, 0.0, -1800.0],
+          "max": [0.0, 280.0, 2200.0]
+        },
+        "waterfront": {
+          "river": "Ohio",
+          "shorelineSpline": "splines/cincinnati_ohio_shore.spline",
+          "harborNodes": ["CIN_HARBOR_WEST", "CIN_HARBOR_EAST"]
+        }
+      },
+      {
+        "name": "Volgograd",
+        "bounds": {
+          "min": [1200.0, 0.0, -2600.0],
+          "max": [4800.0, 340.0, 2600.0]
+        },
+        "waterfront": {
+          "river": "Volga",
+          "shorelineSpline": "splines/volgograd_volga_shore.spline",
+          "harborNodes": ["VLG_PIER_NORTH", "VLG_PIER_SOUTH"]
+        }
+      }
+    ],
+    "waterbodies": {
+      "unifiedRiver": {
+        "name": "Trans-Continental River",
+        "continuity": "cincinnati_ohio:volgograd_volga",
+        "flowDirection": [0.6, 0.0, 0.4],
+        "fidelity": {
+          "lodBias": 0.0,
+          "waveProfile": "materials/water/transcontinental_river.mat"
+        }
+      },
+      "sideChannels": [
+        {
+          "id": "CIN_BACKCHANNEL",
+          "flowDirection": [0.2, 0.0, -0.8],
+          "depth": 8.5
+        },
+        {
+          "id": "VLG_CANAL",
+          "flowDirection": [-0.7, 0.0, 0.3],
+          "depth": 11.0
+        }
+      ]
+    }
+  },
+  "bridges": [
+    {
+      "name": "Friendship Arches",
+      "type": "suspension",
+      "connects": ["Cincinnati", "Volgograd"],
+      "entryPoints": {
+        "cincinnati": [-180.0, 42.0, 1800.0],
+        "volgograd": [1860.0, 48.0, -1760.0]
+      },
+      "corridorTiles": {
+        "width": 6,
+        "length": 48,
+        "tileSet": "bridge/corridor/arches_tileset.json"
+      },
+      "trafficProfile": {
+        "lanes": 6,
+        "supportsTransit": true,
+        "pedestrian": true
+      },
+      "streaming": {
+        "preloadRadius": 600.0,
+        "handoffBand": 240.0,
+        "ambientSwapEvent": "AMB_RIVER_BRIDGE"
+      }
+    },
+    {
+      "name": "Unity Causeway",
+      "type": "truss",
+      "connects": ["Cincinnati", "Volgograd"],
+      "entryPoints": {
+        "cincinnati": [-360.0, 38.0, -1200.0],
+        "volgograd": [2040.0, 44.0, 1320.0]
+      },
+      "corridorTiles": {
+        "width": 4,
+        "length": 60,
+        "tileSet": "bridge/corridor/causeway_tileset.json"
+      },
+      "trafficProfile": {
+        "lanes": 4,
+        "supportsTransit": false,
+        "pedestrian": true
+      },
+      "streaming": {
+        "preloadRadius": 420.0,
+        "handoffBand": 180.0,
+        "ambientSwapEvent": "AMB_BRIDGE_CAUSEWAY"
+      }
+    }
+  ],
+  "loadingVolumes": {
+    "cincinnati": {
+      "tileGrid": "tiles/cincinnati_chunks.grid",
+      "volumes": [
+        {
+          "id": "CIN_CORE",
+          "bounds": [-3000.0, -400.0, -1200.0, 200.0],
+          "lod": 0
+        },
+        {
+          "id": "CIN_SUBURB",
+          "bounds": [-1200.0, -400.0, 1800.0, 400.0],
+          "lod": 1
+        }
+      ]
+    },
+    "volgograd": {
+      "tileGrid": "tiles/volgograd_chunks.grid",
+      "volumes": [
+        {
+          "id": "VLG_CENTRAL",
+          "bounds": [1600.0, -600.0, 2200.0, 340.0],
+          "lod": 0
+        },
+        {
+          "id": "VLG_DISTRICTS",
+          "bounds": [3200.0, -600.0, -2400.0, 340.0],
+          "lod": 1
+        }
+      ]
+    },
+    "bridgeCorridors": [
+      {
+        "bridge": "Friendship Arches",
+        "transitionVolume": [-240.0, -120.0, 240.0, 120.0],
+        "lod": 0
+      },
+      {
+        "bridge": "Unity Causeway",
+        "transitionVolume": [-180.0, -90.0, 180.0, 90.0],
+        "lod": 0
+      }
+    ]
+  },
+  "travelObjectives": [
+    {
+      "id": "OBJ_BRIDGE_GALA",
+      "type": "narrative",
+      "description": "Escort festival convoy across the Friendship Arches to trigger joint celebration.",
+      "reward": "unlock_fast_travel"
+    },
+    {
+      "id": "OBJ_INFRASTRUCTURE_SYNC",
+      "type": "exploration",
+      "description": "Inspect four environmental monitoring stations across both riverbanks to harmonize weather simulations.",
+      "reward": "ambient_theme_variant"
+    },
+    {
+      "id": "OBJ_RIVER_RUN",
+      "type": "time_trial",
+      "description": "Sail the unified river from the Cincinnati harbor to the Volgograd canal without leaving the navigational corridor.",
+      "reward": "vehicle_skin_river_patrol"
+    }
+  ]
+}
