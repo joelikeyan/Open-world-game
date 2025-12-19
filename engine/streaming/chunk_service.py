@@ -59,8 +59,11 @@ class ChunkStreamingService:
             raise ChunkLifecycleError(f"Chunk {key} is not loaded")
 
         chunk.mark_unloaded()
-        if hasattr(self._cache, "evict"):
-            self._cache.evict(key)
+        if self._cache is not None:
+            if hasattr(self._cache, "evict"):
+                self._cache.evict(key)
+            elif key in self._cache:  # Assumes dict-like behavior
+                del self._cache[key]
         return chunk
 
     def get_loaded_chunks(self) -> Dict[ChunkKey, Chunk]:
